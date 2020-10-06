@@ -12,6 +12,7 @@ $(function() {
 
     // 从layui中获取form对象
     var form = layui.form
+        // 从layui中获取 layui对象
     var layer = layui.layer
         // 通过form.verify()函数自定义校验规则
     form.verify({
@@ -33,23 +34,56 @@ $(function() {
 
 
     // 监听注册表单的提交事件
-    $("#form_reg"), on('submit', function(e) {
+    $("#form_reg").on('submit', function(e) {
         // 组织表单的默认提交行为
         e.preventDefault()
             // 发起Ajax的POST请求
         $.ajax({
             type: 'POST',
-            url: 'http://ajax.frontend.itheima.net/api/reguser',
+            url: '/api/reguser',
             data: {
                 username: $('#form_reg [name=username]').val(),
                 password: $('#form_reg [name=password]').val()
             },
             success: function(res) {
-                if (res.status != 0) {
+                if (res.status !== 0) {
                     return layer.msg(res.message) //
                 }
                 layer.msg('注册成功,请登陆')
+                    // 模拟人的点击行为 登陆成功后自动点击登陆跳转到登陆界面
+                $('#link_login').click()
             }
         })
     })
+
+    // 发起ajax登陆表单请求 
+    // 监听登陆表单的提交事件
+    $('#form_login').submit(function(e) {
+        // 阻止表单的默认提交行为
+        e.preventDefault()
+            // 发起ajax请求
+        $.ajax({
+            type: 'POST',
+            url: '/api/login',
+            // 快速获取表单中的数据
+            data: $(this).serialize(),
+            success: function(res) {
+                if (res.status !== 0) {
+                    return layer.msg('登陆失败！')
+
+                }
+                layer.msg('登陆成功！')
+                    // 将登陆成功得到的 token 字符串,保存到localStorage中
+                localStorage.setItem('token', res.token)
+                    // 跳转到后台主页
+                location.href = '../../index.html'
+            }
+        })
+    })
+
+
+
+
+
+
 })

@@ -46,9 +46,7 @@ $(function() {
                 password: $('#form_reg [name=password]').val()
             },
             success: function(res) {
-                if (res.status !== 0) {
-                    return layer.msg(res.message) //
-                }
+                if (res.status !== 0) return layer.msg(res.message)
                 layer.msg('注册成功,请登陆')
                     // 模拟人的点击行为 登陆成功后自动点击登陆跳转到登陆界面
                 $('#link_login').click()

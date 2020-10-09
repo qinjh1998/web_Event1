@@ -31,21 +31,21 @@ function getUserInfo() {
             Authorization: localStorage.getItem('token') || ''
         },
         success: function(res) {
-            if (res.status !== 0) return layui.layer.msg(res.message)
-                // 调用renderAvatar 渲染用户的头像
-            renderAvatar(res.data)
+                if (res.status !== 0) return layui.layer.msg(res.message)
+                    // 调用renderAvatar 渲染用户的头像
+                renderAvatar(res.data)
 
 
-        },
-        // complete: function(res) {
-        //     // console.log(res);
-        //     // 在 complete 回调函数中, 可以使用res.responseJSON拿到服务器响应回来的数据
-        //     if (res.responseJSON.status === 1 && res.responseJSON.message === '身份认证失败！') {
-        //         // 1.强制清空 token 
-        //         localStorage.removeItem('token')
-        //             // 2. 强制跳转到登陆页面
-        //         location.href = '../login.html'
-        //     }
+            }
+            // complete: function(res) {
+            //     // console.log(res);
+            //     // 在 complete 回调函数中, 可以使用res.responseJSON拿到服务器响应回来的数据
+            //     if (res.responseJSON.status === 1 && res.responseJSON.message === '身份认证失败！') {
+            //         // 1.强制清空 token 
+            //         localStorage.removeItem('token')
+            //             // 2. 强制跳转到登陆页面
+            //         location.href = '../login.html'
+            //     }
 
         // }
     });
@@ -58,9 +58,9 @@ function renderAvatar(user) {
         // 2. 设置欢迎文本
     $('#welcome').html('欢迎&nbsp;&nbsp;' + name)
         // 3. 渲染用户的头像
-    if (user.user_pic != null) {
+    if (user.user_pic !== null) {
         // 渲染图片头像
-        $('.layui-nav-img').attr('src', user_pic).show()
+        $('.layui-nav-img').attr('src', user.user_pic).show()
         $('.text-avatar').hide()
     } else {
         // 渲染文本头像
